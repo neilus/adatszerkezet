@@ -1,0 +1,1 @@
+{"ts":1362967549718,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"var paragraphs = document.getElementsByTagName(\"p\");\nfor (var i = 0; i < paragraphs.length; i++) {\n  var paragraph = paragraphs.item(i);\n  paragraph.style.setProperty(\"color\", \"white\", null);\n}\n"]],"start1":0,"start2":0,"length1":0,"length2":194}]],"length":194}
