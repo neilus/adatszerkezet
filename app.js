@@ -155,6 +155,7 @@ function restart() {
       mousedown_link = d;
       if(mousedown_link === selected_link) selected_link = null;
       else selected_link = mousedown_link;
+      nextLevel = Array();
       selected_node = null;
       restart();
     });
