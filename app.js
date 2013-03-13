@@ -331,7 +331,7 @@ function keydown() {
   switch(d3.event.keyCode) {
   	case 13: // Enter
   		console.log(typeof nextLevel);
-  		if(typeof nextLevel=="undefined" ){
+  		if(typeof nextLevel=="undefined"){
   			if(selected_node){
   				runBFS([selected_node.id],[]);
   			}
@@ -341,6 +341,9 @@ function keydown() {
 			if(nextLevel.length > 0){
 				console.log(nextLevel, lLevel);
 				runBFS(nextLevel,lLevel);
+			}
+			else if(nextLevel.length === 0){
+				runBFS([selected_node.id],lLevel);
 			}
   		}
   		break;
