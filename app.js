@@ -1,6 +1,6 @@
 // set up SVG for D3
 var width  = 960,
-    height = 500,
+    height = 900,
     colors = d3.scale.category10();
 
 var svg = d3.select('body')
@@ -227,15 +227,15 @@ function restart() {
       // add link to graph (update if exists)
       // NB: links are strictly source < target; arrows separately specified by booleans
       var source, target, direction;
-      if(mousedown_node.id < mouseup_node.id) {
+      //if(mousedown_node.id < mouseup_node.id) {
         source = mousedown_node;
         target = mouseup_node;
         direction = 'right';
-      } else {
+      /*} else {
         source = mouseup_node;
         target = mousedown_node;
         direction = 'left';
-      }
+      }/**/
 
       var link;
       link = links.filter(function(l) {
@@ -280,7 +280,7 @@ function mousedown() {
 
   // insert new node at point
   var point = d3.mouse(this),
-      node = {id: ++lastNodeId, reflexive: false};
+      node = {id: ++lastNodeId, reflexive: true};
   node.x = point[0];
   node.y = point[1];
   nodes.push(node);
