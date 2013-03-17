@@ -1,57 +1,61 @@
 // set up SVG for D3
-var width  = 960,
-    height = 900,
+var width  = 500,
+    height = 450,
     colors = d3.scale.category10();
 
-var svg = d3.select('body')
-  .append('svg')
-  .attr('width', width)
-  .attr('height', height);
-
+var svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
 // set up initial nodes and links
 //  - nodes are known by 'id', not by index in array.
 //  - reflexive edges are indicated on the node (as a bold black circle).
 //  - links are always source < target; edge directions are set by 'left' and 'right'.
 nodes = [
-    {id: 0, reflexive: false},
-    {id: 1, reflexive: true },
-    {id: 2, reflexive: false}
-  ],
+	{
+	id: 0,
+	reflexive: false
+},
+	{
+	id: 1,
+	reflexive: true
+},
+	{
+	id: 2,
+	reflexive:false
+}
+],
 lastNodeId = 2,
 links = [
-    {source: nodes[0], target: nodes[1], left: false, right: true },
+	{
+	source: nodes[0], target: nodes[1], left: false, right: true },
     {source: nodes[1], target: nodes[2], left: false, right: true }
   ];
 
-lLevel = Array();
 
-function runBFS(currentLevel,lastLevel){
+function runBFS(currentLevel, lastLevel) {
 	var lpontok;
-	lpontok=d3.selectAll('circle')[0];
-	lastLevel.forEach(function(s){
-		lpontok[s].style.fill="#8f8f8f";
+	lpontok = d3.selectAll('circle')[0];
+	lastLevel.forEach(function (s) {
+		lpontok[s].style.fill = "#8f8f8f";
 		console.log("DEBUG: " + s);
 	})
 	console.log("LAST Level: " + lastLevel.toString());
 	console.log("CURRENT Level: " + currentLevel.toString());
 	//circle.data(0).attr('class','WAT');
 	var pontok;
-	nextLevel=Array();
-	for(i =0; i< links.length;i++){
-		for(j=0;j<currentLevel.length;j++){
-			if(links[i].source.id == currentLevel[j]){
+	nextLevel = Array();
+	for (i = 0; i < links.length; i++) {
+		for (j = 0; j < currentLevel.length; j++) {
+			if (links[i].source.id == currentLevel[j]) {
 				nextLevel.push(links[i].target.id);
 			}
-			pontok=d3.selectAll('circle')[0];
-			currentLevel.forEach(function(s){
+			pontok = d3.selectAll('circle')[0];
+			currentLevel.forEach(function (s) {
 
-				pontok[s].style.fill="#45f01a";
+				pontok[s].style.fill = "#45f01a";
 				//console.log("DEBUG: " + s);
 			})
 		}
 	}
 	lLevel = currentLevel;
-
 
 }
 // init D3 force layout
@@ -227,7 +231,7 @@ function restart() {
       // add link to graph (update if exists)
       // NB: links are strictly source < target; arrows separately specified by booleans
       var source, target, direction;
-      //if(mousedown_node.id < mouseup_node.id) {
+      //if(mousedown_node.id < mouseup_node.id) { //WTF motherfucker?!?!?
         source = mousedown_node;
         target = mouseup_node;
         direction = 'right';
