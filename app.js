@@ -36,9 +36,14 @@ links = [
 function unvisitNodes(){
 	nextLevel=undefined;
 	nodes.forEach(function(i){i.visited=false;})
+	
+	document.getElementById("lastLevel").innerHTML = document.getElementById("nextLevel").innerHTML  = "";
+	
 }
 function runBFS(currentLevel, lastLevel) {
 	var lpontok;
+	document.getElementById("lastLevel").innerHTML = lastLevel.toString();
+	document.getElementById("nextLevel").innerHTML = currentLevel.toString();
 	lpontok = d3.selectAll('circle')[0];
 	/*
 	lastLevel.forEach(function (s) {
