@@ -37,13 +37,24 @@ function unvisitNodes(){
 	nextLevel=undefined;
 	nodes.forEach(function(i){i.visited=false;})
 	
-	document.getElementById("lastLevel").innerHTML = document.getElementById("nextLevel").innerHTML  = "";
+	document.getElementById("lastLevel").innerHTML = 
+	document.getElementById("nextLevel").innerHTML =
+	document.getElementById("visited").innerHTML = "";
 	
+}
+function updateVisited(){
+	var visited = "";
+	for (i =0; i<=lastNodeId;i++){
+		if(nodes[i].visited)
+			visited += " " + nodes[i].id + " ";
+	}
+	document.getElementById("visited").innerHTML = visited;
 }
 function runBFS(currentLevel, lastLevel) {
 	var lpontok;
 	document.getElementById("lastLevel").innerHTML = lastLevel.toString();
 	document.getElementById("nextLevel").innerHTML = currentLevel.toString();
+	
 	lpontok = d3.selectAll('circle')[0];
 	/*
 	lastLevel.forEach(function (s) {
@@ -356,6 +367,7 @@ function keydown() {
   if(!selected_node && !selected_link) return;
   switch(d3.event.keyCode) {
   	case 13: // Enter
+  		
   		console.log(typeof nextLevel);
   		if(typeof nextLevel=="undefined"){
   			if(selected_node && selected_node.visited === false){
@@ -373,6 +385,7 @@ function keydown() {
 				//unvisitNodes();
 			}/**/
   		}
+  		updateVisited();
   		break;
   	case 27: // ESC
   		unvisitNodes();
