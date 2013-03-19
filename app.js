@@ -11,32 +11,45 @@ var svg = d3.select('body').append('svg').attr('width', width).attr('height', he
 nodes = [
 	{
 	id: 0,
-	reflexive: false
+	reflexive: true,
+	visited: false
 },
 	{
 	id: 1,
-	reflexive: true
+	reflexive: true,
+	visited: false
 },
 	{
-	id: 2,
-	reflexive:false
+	id:2,
+	reflexive: true,
+	visited: false
 }
 ],
+visitedNodes = Array();
+
 lastNodeId = 2,
 links = [
 	{
 	source: nodes[0], target: nodes[1], left: false, right: true },
     {source: nodes[1], target: nodes[2], left: false, right: true }
   ];
-
-
+function unvisitNodes(){
+	nextLevel=undefined;
+	nodes.forEach(function(i){i.visited=false;})
+}
 function runBFS(currentLevel, lastLevel) {
 	var lpontok;
 	lpontok = d3.selectAll('circle')[0];
+	/*
 	lastLevel.forEach(function (s) {
 		lpontok[s].style.fill = "#8f8f8f";
 		console.log("DEBUG: " + s);
-	})
+	})/**/
+	for (i=0; i<lastLevel.length; i++){
+		lpontok[ lastLevel[i] ].style.fill = "#8f8f8f";
+		nodes [lastLevel[i] ].visited = true;
+		
+	}
 	console.log("LAST Level: " + lastLevel.toString());
 	console.log("CURRENT Level: " + currentLevel.toString());
 	//circle.data(0).attr('class','WAT');
@@ -45,7 +58,8 @@ function runBFS(currentLevel, lastLevel) {
 	for (i = 0; i < links.length; i++) {
 		for (j = 0; j < currentLevel.length; j++) {
 			if (links[i].source.id == currentLevel[j]) {
-				nextLevel.push(links[i].target.id);
+				if(links[i].target.visited===false)
+					nextLevel.push(links[i].target.id);
 			}
 			pontok = d3.selectAll('circle')[0];
 			currentLevel.forEach(function (s) {
@@ -110,6 +124,7 @@ function resetMouseVars() {
   mousedown_node = null;
   mouseup_node = null;
   mousedown_link = null;
+  unvisitNodes();
 }
 
 // update force layout (called automatically each iteration)
@@ -279,16 +294,17 @@ function restart() {
 function mousedown() {
   // because :active only works in WebKit?
   svg.classed('active', true);
-
+  unvisitNodes();
   if(d3.event.ctrlKey || mousedown_node || mousedown_link) return;
 
   // insert new node at point
   var point = d3.mouse(this),
-      node = {id: ++lastNodeId, reflexive: true};
+      node = {id: ++lastNodeId, reflexive: true,visited:false};
   node.x = point[0];
   node.y = point[1];
+  
   nodes.push(node);
-
+  
   restart();
 }
 
@@ -337,7 +353,7 @@ function keydown() {
   	case 13: // Enter
   		console.log(typeof nextLevel);
   		if(typeof nextLevel=="undefined"){
-  			if(selected_node){
+  			if(selected_node && selected_node.visited === false){
   				runBFS([selected_node.id],[]);
   			}
   		}
@@ -347,10 +363,14 @@ function keydown() {
 				console.log(nextLevel, lLevel);
 				runBFS(nextLevel,lLevel);
 			}
-			else if(nextLevel.length === 0){
-				runBFS([selected_node.id],lLevel);
-			}
+			else if(nextLevel.length === 0 && selected_node.visited === true){
+				d3.selectAll('circle')[0][selected_node.id].style.fill = "yellow";
+				//unvisitNodes();
+			}/**/
   		}
+  		break;
+  	case 27: // ESC
+  		unvisitNodes();
   		break;
     case 46: // delete
       if(selected_node) {
