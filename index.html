@@ -10,6 +10,7 @@
     <script src="jquery-contextMenu/jquery.contextMenu.js" type="text/javascript" charset="utf-8"></script>
     -->
     <style type="text/css">
+ 
       .box {
         background-color: skyblue;
         width: 24px;
@@ -18,16 +19,23 @@
         margin: 1px;
       }
     </style>
+    <script src="bfs.js"></script>
   </head>
 
-  <body style="color=lightgray">
-  </body>
+  <body style="background:#222222;color:lightgray;">
+  
   <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
   <script src="js/d3/d3.js"></script>
   <script src="app.js"></script>
+  <script>
+  	function stepAlgorithm(){
+  		stepBFS();
+  	}
+  </script> 
+  <button autofocus="autofocus" onclick="stepBFS()" onkeydown="stepBFS()">Run BFS</button>
   <p> <b>Előző szint:</b> 		<em id="lastLevel"></em></p>
-  <p> <b>Következő szint:</b>	<em id="nextLevel"></em></p>
-  <p> <b>Már bejárt csúcsok:</b><em id="visited"  ></em></p>
-
+  <p> <b style="color:green" >Következő szint:</b>	<em id="nextLevel"></em></p>
+  <p> <b style="color:red">Már bejárt csúcsok:</b><em id="visited"  ></em></p>
+</body>
 
 </html>

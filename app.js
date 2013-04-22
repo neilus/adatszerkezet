@@ -3,7 +3,7 @@ var width  = 500,
     height = 450,
     colors = d3.scale.category10();
 
-var svg = d3.select('body').append('svg').attr('width', width).attr('height', height);
+var svg = d3.select('body').append('svg').attr('width', width).attr('height', height).style('background-color','#222222');
 // set up initial nodes and links
 //  - nodes are known by 'id', not by index in array.
 //  - reflexive edges are indicated on the node (as a bold black circle).
@@ -36,11 +36,11 @@ links = [
 function unvisitNodes(){
 	nextLevel=undefined;
 	nodes.forEach(function(i){i.visited=false;})
-	
-	document.getElementById("lastLevel").innerHTML = 
+
+	document.getElementById("lastLevel").innerHTML =
 	document.getElementById("nextLevel").innerHTML =
 	document.getElementById("visited").innerHTML = "";
-	
+
 }
 function updateVisited(){
 	var visited = "";
@@ -50,44 +50,7 @@ function updateVisited(){
 	}
 	document.getElementById("visited").innerHTML = visited;
 }
-function runBFS(currentLevel, lastLevel) {
-	var lpontok;
-	document.getElementById("lastLevel").innerHTML = lastLevel.toString();
-	document.getElementById("nextLevel").innerHTML = currentLevel.toString();
-	
-	lpontok = d3.selectAll('circle')[0];
-	/*
-	lastLevel.forEach(function (s) {
-		lpontok[s].style.fill = "#8f8f8f";
-		console.log("DEBUG: " + s);
-	})/**/
-	for (i=0; i<lastLevel.length; i++){
-		lpontok[ lastLevel[i] ].style.fill = "#8f8f8f";
-		nodes [lastLevel[i] ].visited = true;
-		
-	}
-	console.log("LAST Level: " + lastLevel.toString());
-	console.log("CURRENT Level: " + currentLevel.toString());
-	//circle.data(0).attr('class','WAT');
-	var pontok;
-	nextLevel = Array();
-	for (i = 0; i < links.length; i++) {
-		for (j = 0; j < currentLevel.length; j++) {
-			if (links[i].source.id == currentLevel[j]) {
-				if(links[i].target.visited===false)
-					nextLevel.push(links[i].target.id);
-			}
-			pontok = d3.selectAll('circle')[0];
-			currentLevel.forEach(function (s) {
 
-				pontok[s].style.fill = "#45f01a";
-				//console.log("DEBUG: " + s);
-			})
-		}
-	}
-	lLevel = currentLevel;
-
-}
 // init D3 force layout
 var force = d3.layout.force()
     .nodes(nodes)
@@ -130,7 +93,7 @@ var path = svg.append('svg:g').selectAll('path'),
     circle = svg.append('svg:g').selectAll('g');
 
 // mouse event vars
-var selected_node = null,
+	selected_node = null,
     selected_link = null,
     mousedown_link = null,
     mousedown_node = null,
@@ -318,9 +281,9 @@ function mousedown() {
       node = {id: ++lastNodeId, reflexive: true,visited:false};
   node.x = point[0];
   node.y = point[1];
-  
+
   nodes.push(node);
-  
+
   restart();
 }
 
@@ -367,26 +330,8 @@ function keydown() {
   if(!selected_node && !selected_link) return;
   switch(d3.event.keyCode) {
   	case 13: // Enter
-  		
-  		console.log(typeof nextLevel);
-  		if(typeof nextLevel=="undefined"){
-  			if(selected_node && selected_node.visited === false){
-  				runBFS([selected_node.id],[]);
-  			}
-  		}
-		else
-		{
-			if(nextLevel.length > 0){
-				console.log(nextLevel, lLevel);
-				runBFS(nextLevel,lLevel);
-			}
-			else if(nextLevel.length === 0 && selected_node.visited === true){
-				d3.selectAll('circle')[0][selected_node.id].style.fill = "yellow";
-				//unvisitNodes();
-			}/**/
-  		}
-  		updateVisited();
-  		break;
+		stepAlgorithm();
+		break;
   	case 27: // ESC
   		unvisitNodes();
   		break;
