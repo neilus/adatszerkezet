@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+	<head><title>Foo Bar</title>
+
+	</head>
+	<body>
+		<script>
+		function Foo() {
+		    this.value = 42;
+		}
+		Foo.prototype = {
+		    method: function() {return this.value;}
+		};
+		Foo.prototype.fuck = 42;
+		Foo.prototype.whatTheFuck = function(){return this.fuck;}
+
+		function Bar() {}
+
+		// Set Bar's prototype to a new instance of Foo
+		Bar.prototype = new Foo();
+		Bar.prototype.foo = 'Hello World';
+
+		// Make sure to list Bar as the actual constructor
+		Bar.prototype.constructor = Bar;
+		
+		var test = new Bar() // create a new bar instance
+		//	Foo.prototype = Bar.prototype;
+		var proba = new Foo();
+		var testdrive = new Bar();
+		console.log("proba.fuck = " + proba.whatTheFuck() );
+		console.log("test.fuck = " + test.whatTheFuck() );
+		console.log("testdrive.fuck = " + testdrive.whatTheFuck() );
+		console.log("updating Foo.prototype.fuck ... " + (Foo.prototype.fuck=69) );
+		console.log("proba.fuck = " + proba.whatTheFuck() );
+		console.log("test.fuck = " + test.whatTheFuck() );
+		console.log("testdrive.fuck = " + testdrive.whatTheFuck() );
+		console.log("updating Foo.prototype.fuck ... " + (++Foo.prototype.fuck) );
+		console.log("proba.fuck = " + proba.fuck);
+		console.log("test.fuck = " + test.fuck);
+		console.log("testdrive.fuck = " + testdrive.fuck);
+		console.log();
+		console.log("proba.value = " + proba.value);
+		console.log("test.value = " + test.value);
+		console.log("testdrive.value = " + testdrive.value);
+		console.log("updating test.value ... " + (++test.value));
+		console.log("updating proba.value ... "+ (--proba.value ));
+		console.log("proba.value = " + proba.value);
+		console.log("test.value = " + test.value);
+		console.log("testdrive.value = " + testdrive.value);
+		/*
+		console.log("testdrive.method() " + testdrive.method() );
+		console.log("test.method() " + test.method() );
+		console.log("proba.method() " + proba.method() );
+*/
+
+		</script>
+	</body>
+
+</html>
