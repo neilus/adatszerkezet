@@ -30,8 +30,22 @@
   <script src="js/d3/d3.js"></script>
   <script src="app.js"></script>
   <script>
+  	var erosKomponensek = [];
   	function stepAlgorithm(){
-  		erosKomponensek();
+  		if(nodes[0].visited === false )
+  			DFS();
+  		else{
+  			unvisitNodes();
+  			reverseOrder().forEach(function(n){
+  				erosKomponensek.push(runReverseDFS(n));
+  			});
+  			var pontok = d3.selectAll("circle")[0];
+  			for(var i =0; i< erosKomponensek.length; i++){
+  				for(var j=0;j< erosKomponensek[i].length; j++){
+  					pontok[erosKomponensek[i][j].id].style.fill = d3.rgb(colors(i));
+  				}
+  			}
+  		}
   	}
   </script> 
   <button autofocus="autofocus" onclick="stepBFS()" onkeydown="stepBFS()">Run BFS</button>

@@ -35,13 +35,22 @@ function runDFS(startNode){
 }
 
 function runReverseDFS(startNode){
-	var startLinks = linksTo(startNode);
-	startLinks.forEach(function(link){
-		if(link.source.visited === false){
-			runReverseDFS(link.source);
-
-		}
-	})
+	if(startNode.visited === false){
+		var startLinks = linksTo(startNode);
+		var component = new Array(startNode);
+		startNode.visited = true;
+		startLinks.forEach(function(link){
+			if(link.source.visited === false){
+				runReverseDFS(link.source).forEach(function(v){
+					component.push(v);
+				});
+			}
+		})
+	
+		return component;
+	}
+	else
+		return [];
 }
 
 
