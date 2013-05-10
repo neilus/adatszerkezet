@@ -1,6 +1,12 @@
 all: js/d3
 
+clean:
+	cd js && make clean
+deep-clean:
+	cd js && make deep-clean
+
 js:
 	mkdir js
 js/d3: js
-	cd js && git clone git://github.com/mbostock/d3.git && cd d3 && npm install && npm test
+	cd js && make d3
+
